@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You, Always</title>
+
+<style>
+:root{
+    --pink:#ff4d6d;
+    --dark:#c9184a;
+    --soft:#fff0f3;
+}
+
+body{
+    margin:0;
+    font-family:Georgia,serif;
+    background:linear-gradient(135deg,#fff0f3,#ffe5ec);
+    overflow-x:hidden;
+    text-align:center;
+}
+
+/* Floating hearts */
+.heart{
+    position:fixed;
+    font-size:20px;
+    animation:float 5s linear infinite;
+    opacity:.8;
+    pointer-events:none;
+}
+
+@keyframes float{
+    0%{transform:translateY(110vh) scale(.5);}
+    100%{transform:translateY(-10vh) scale(1.2);}
+}
+
+/* Intro overlay */
+/* Cinematic intro */
+
+#intro{
+    position:fixed;
+    inset:0;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(-45deg,#fff0f3,#ffd6e0,#ffe5ec,#fff0f3);
+    background-size:400% 400%;
+    animation:gradientFlow 10s ease infinite;
+    z-index:10;
+}
+
+@keyframes gradientFlow{
+    0%{background-position:0% 50%;}
+    50%{background-position:100% 50%;}
+    100%{background-position:0% 50%;}
+}
+
+.intro-content{
+    text-align:center;
+    animation:fadeIntro 2s ease;
+}
+
+@keyframes fadeIntro{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1;}
+}
+
+/* glowing title */
+
+.glow-title{
+    font-size:2.5rem;
+    color:#c9184a;
+    text-shadow:0 0 10px rgba(255,77,109,.5);
+}
+
+/* subtitle */
+
+.subtitle{
+    margin:10px 0 30px;
+    font-size:1.1rem;
+    opacity:.8;
+}
+
+/* pulsing button */
+
+.pulse-btn{
+    padding:16px 38px;
+    border:none;
+    border-radius:40px;
+    font-size:1.2rem;
+    cursor:pointer;
+    color:white;
+    background:#ff4d6d;
+    box-shadow:0 0 20px rgba(255,77,109,.6);
+    animation:pulse 1.5s infinite;
+    transition:.3s;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(1);}
+}
+
+.pulse-btn:hover{
+    background:#c9184a;
+}
+
+
+.intro-btn{
+    padding:15px 35px;
+    border:none;
+    background:var(--pink);
+    color:white;
+    font-size:1.2rem;
+    border-radius:40px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.intro-btn:hover{
+    background:var(--dark);
+    transform:scale(1.05);
+}
+
+/* Romantic garden background */
+
+#flowerGarden{
+    position:fixed;
+    bottom:0;
+    left:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+    overflow:hidden;
+    z-index:0;   /* ← key change */
+}
+
+/* flower */
+
+.flower{
+    position:absolute;
+    bottom:-40px;
+    font-size:28px;
+    animation:grow 3s ease-out forwards, sway 3s ease-in-out infinite alternate;
+    opacity:0.9;
+}
+
+@keyframes grow{
+    from{
+        transform:translateY(60px) scale(0.2);
+        opacity:0;
+    }
+    to{
+        transform:translateY(0) scale(1);
+        opacity:1;
+    }
+}
+
+@keyframes sway{
+    from{ transform:rotate(-5deg); }
+    to{ transform:rotate(5deg); }
+}
+
+/* Main content */
+.container{
+    padding:40px 20px;
+    max-width:900px;
+    margin:auto;
+}
+
+h1{
+    color:var(--dark);
+    animation:fadeIn 2s ease;
+}
+
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(20px);}
+    to{opacity:1;}
+}
+
+/* Gallery */
+.gallery{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:center;
+    margin:30px 0;
+}
+
+.gallery img{
+    width:200px;
+    height:250px;
+    object-fit:cover;
+    border-radius:15px;
+    cursor:pointer;
+    transition:.3s;
+    box-shadow:0 8px 18px rgba(0,0,0,.15);
+}
+
+.gallery img:hover{
+    transform:scale(1.07);
+}
+
+/* Lightbox */
+#lightbox{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    display:none;
+    justify-content:center;
+    align-items:center;
+}
+
+#lightbox img{
+    max-width:90%;
+    max-height:90%;
+    border-radius:15px;
+}
+
+/* Envelope */
+.envelope{
+    background:white;
+    padding:40px;
+    border-radius:25px;
+    box-shadow:0 10px 25px rgba(255,77,109,.25);
+    margin-top:20px;
+    display:none;
+
+    text-align:left;
+    font-size:1.05rem;
+    line-height:1.8;
+}
+
+/* Typewriter text */
+#typed{
+    font-size:1.1rem;
+    white-space:pre-wrap;
+    text-align:left;
+    line-height:1.6;
+}
+
+/* Love buttons */
+.choice{
+    margin-top:30px;
+    text-align:center;
+    padding-top:20px;
+    border-top:1px solid #ffd6de;
+}
+
+.choice button{
+    padding:10px 20px;
+    margin:8px;
+    border:none;
+    border-radius:25px;
+    font-size:1rem;
+    cursor:pointer;
+}
+
+.yes{
+    background:var(--pink);
+    color:white;
+}
+
+.no{
+    background:#ccc;
+}
+
+/* Music */
+audio{
+    margin-top:15px;
+    opacity:.6;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Intro -->
+<div id="intro">
+
+<div class="intro-content">
+
+<h1 class="glow-title">A Special Surprise 💌</h1>
+<p class="subtitle">Made with love, just for you…</p>
+
+<button class="pulse-btn" onclick="start()">Open My Heart ❤️</button>
+
+</div>
+
+</div>
+
+<div id="flowerGarden"></div>
+
+<div class="container">
+
+<h1>To Someone Special…</h1>
+
+<div class="gallery">
+<img src="photo1.jpg">
+<img src="photo2.jpg">
+<img src="photo3.jpg">
+</div>
+
+<button class="intro-btn" onclick="openLetter()"> CLICK THIS BABY!!</button>
+
+<div class="envelope" id="letter">
+<h2>My Baby,</h2>
+<p id="typed"></p>
+
+<div class="choice">
+<p>Will you always stay with me?</p>
+<button class="yes" onclick="yes()">Yes ❤️</button>
+<button class="no" id="noBtn">No</button>
+</div>
+</div>
+
+<audio id="music" loop>
+    <source src="HEREWITHMEBABY.mp3" type="audio/mpeg">
+</audio>
+
+</div>
+
+<!-- Lightbox -->
+<div id="lightbox" onclick="this.style.display='none'">
+<img id="lightImg">
+</div>
+
+<script>
+
+/* Floating hearts */
+setInterval(()=>{
+let h=document.createElement("div");
+h.className="heart";
+h.innerHTML="❤️";
+h.style.left=Math.random()*100+"vw";
+document.body.appendChild(h);
+setTimeout(()=>h.remove(),6000);
+},300);
+
+/* Intro */
+function start(){
+    document.getElementById("intro").style.display="none";
+
+    const music = document.getElementById("music");
+    music.volume = 0.7;
+    music.play().catch(()=>{});
+}
+
+/* Gallery lightbox */
+document.querySelectorAll(".gallery img").forEach(img=>{
+img.onclick=()=>{
+document.getElementById("lightbox").style.display="flex";
+document.getElementById("lightImg").src=img.src;
+};
+});
+
+/* Growing flower garden */
+
+const flowers = ["🌸","🌷","🌹","🌺","💮"];
+
+function growFlower(){
+
+    const garden = document.getElementById("flowerGarden");
+    const flower = document.createElement("div");
+
+    flower.className = "flower";
+    flower.innerHTML = flowers[Math.floor(Math.random()*flowers.length)];
+
+    flower.style.left = Math.random()*100 + "vw";
+    flower.style.animationDuration = (Math.random()*2+2)+"s";
+
+    garden.appendChild(flower);
+
+    setTimeout(()=>flower.remove(),6000);
+}
+
+setInterval(growFlower, 700);
+
+/* Typewriter message */
+const message = `So alam mo na? Char. Happy Valentine’s Day, my baby.
+
+Pero seryoso… today isn’t just about flowers, chocolates, or posting you. It’s about us. About how in the middle of my busy days—acads, responsibilities, pagiging strong independent person kuno—you’re my pahinga.
+
+Alam mo ba, ang daming versions ko na ikaw lang nakakakita.
+Yung soft na ako.
+Yung dramatic na ako.
+Yung overthinker na ako.
+Yung maarte na ako.
+Yung simp na ako.
+Yung clingy pero kunwari hindi.
+
+And yet, you stay.
+
+Thank you for being patient with me. Thank you for understanding me kahit minsan hindi ko rin maintindihan sarili ko. Thank you for choosing me every day, not just on Valentine’s Day.
+
+I’m grateful kasi I have someone who makes me feel loved in the simplest ways—sa good morning messages, sa random “kumain ka na ba?”, sa "how's your day?", at sa mga “ingat ka” na parang simple messages lang but you still feel care.
+
+You make love feel safe.
+You make love feel steady.
+You make love feel like home.
+
+If love was a subject, I’d study it carefully—like how I prepare for presentations, how I overthink abstracts, how I make sure every detail is right. Because loving you isn’t something I take lightly. It’s something I choose, intentionally, every single day.
+
+I don’t promise perfection.
+But I promise effort.
+I promise honesty (totoo na 'to hehe 😁).
+I promise na kahit may tampuhan, confusion, or pagod, I will still choose us.
+
+You are my answered prayer in human form. My comfort. My favorite notification. My calm in chaos.
+
+And when I think about our future… I don’t just see big, grand moments.
+
+I see ordinary days.
+Quiet mornings.
+Late-night talks about our dreams.
+Supporting each other habang hinahabol natin yung goals natin.
+
+I see us growing — not just older, but wiser, stronger, more patient with each other. I see us building something real. Something stable. Something that doesn’t crumble when life gets hard.
+
+I imagine celebrating your wins like they’re mine.
+I imagine you being there when I’m stressed, reminding me that I can do it.
+I imagine us choosing each other even on the days when it’s not easy.
+
+I don’t know exactly what our future will look like.
+But I know I want you in it.
+
+I want us to grow together.
+To pray together.
+To dream together.
+To build a life where love isn’t just a feeling—but a decision we keep making every single day.
+
+No rush. No pressure.
+Just two people who genuinely want the same direction.
+
+And if one day we look back at this version of us, I hope we’ll smile and say, "Asawa ko, ang tagal na pala natin, we built a lot of memories for us to keep forever" 
+
+Happy Valentine’s Day, my love, my baby, my babe, my husband.
+Thank you for being mine. And thank you for letting me be yours.
+
+Always and in all ways,
+Your baby😍🥰`;
+let i=0;
+
+function type(){
+    if(i < message.length){
+
+        let char = message.charAt(i);
+
+        if(char === "\n"){
+            document.getElementById("typed").innerHTML += "<br>";
+        } else {
+            document.getElementById("typed").innerHTML += char;
+        }
+
+        i++;
+        setTimeout(type, 40);
+    }
+}
+
+/* Open letter */
+function openLetter(){
+document.getElementById("letter").style.display="block";
+document.getElementById("music").play();
+if(i===0) type();
+}
+
+/* Playful No button */
+const noBtn=document.getElementById("noBtn");
+noBtn.addEventListener("mouseover",()=>{
+noBtn.style.position="absolute";
+noBtn.style.left=Math.random()*80+"%";
+noBtn.style.top=Math.random()*80+"%";
+});
+
+/* Yes reaction */
+function yes(){
+alert("OH SABI MO 'YAN HA, KAPAG AKO INIWAN MO SASAPAKIN KITA D'YAN NANG MALALA UMAYOS KA, I LOVE YOU PO HEHEHE ❤️");
+}
+
+</script>
+
+</body>
+</html>
